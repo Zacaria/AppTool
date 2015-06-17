@@ -57,11 +57,14 @@ angular.module 'appToolApp'
 
       callback? event, item, array
 
+    socket.emit 'join', modelName
+
   ###
   Removes listeners for a models updates on the socket
 
   @param modelName
   ###
   unsyncUpdates: (modelName) ->
+    socket.emit 'leave', modelName
     socket.removeAllListeners modelName + ':save'
     socket.removeAllListeners modelName + ':remove'

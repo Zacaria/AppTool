@@ -3,8 +3,14 @@
 angular.module 'appToolApp'
 .controller 'NavbarCtrl', ($scope, $location, Auth) ->
   $scope.menu = [
-    title: 'Home'
-    link: '/'
+    {
+      title: 'Home',
+      link: '/'
+    },
+    {
+      title: 'Prosits',
+      link: '/prosits'
+    }
   ]
   $scope.isCollapsed = true
   $scope.isLoggedIn = Auth.isLoggedIn
