@@ -1,0 +1,42 @@
+//   Created by Kaakashi on 15/06/15.
+
+div(ng-include='"components/navbar/navbar.html"')
+
+.container
+    .row
+        .col-lg-12
+            h1.page-header Prosit: {{prosit.name}}
+
+    form.thing-form
+        label prosit
+
+    .row
+        .col-lg-12
+            h2 Title
+            | {{prosit}}
+
+    .row
+        .col-lg-12
+            h2 keywords
+            div
+                p(ng-repeat="keyword in prosit.keywords")
+                    | {{keyword.word}}
+            div
+                form.thing-form
+                    p.input-group
+                        input.form-control(type='text', name="word", placeholder='Add a new prosit here.', ng-model='newKeyword')
+                        span.input-group-btn
+                            //button.btn.btn-primary(type='submit') Add New
+                            button.btn.btn-primary(type='submit', ng-click='addKeyword()') Add New
+    .row
+        .col-lg-12
+            h2 generalization
+            div
+                | {{prosit.generalization}}
+            div
+                form.thing-form
+                    p.input-group
+                        input.form-control(type='text', name="generalization", placeholder='generalization', ng-model='newGeneralization')
+                        span.input-group-btn
+                            //button.btn.btn-primary(type='submit') Add New
+                            button.btn.btn-primary(type='submit', ng-click='addGeneralization()') Add New
