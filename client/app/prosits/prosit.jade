@@ -13,21 +13,25 @@ div(ng-include='"components/navbar/navbar.html"')
     .row
         .col-lg-12
             h2 Title
-            | {{prosit}}
+            pre {{prosit}}
 
     .row
         .col-lg-12
             h2 keywords
-            div
-                p(ng-repeat="keyword in prosit.keywords")
-                    | {{keyword.word}}
-            div
-                form.thing-form
-                    p.input-group
-                        input.form-control(type='text', name="word", placeholder='Add a new prosit here.', ng-model='newKeyword')
-                        span.input-group-btn
-                            //button.btn.btn-primary(type='submit') Add New
-                            button.btn.btn-primary(type='submit', ng-click='addKeyword()') Add New
+            .row
+                ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='keyword in prosit.keywords')
+                    li
+                        p
+                        | {{keyword.word}} : {{keyword.definition}}
+                        button.close(type='button', ng-click='deleteKeyword(keyword)') ×
+            .row
+                .col-lg-6
+                    form.thing-form
+                        p.input-group
+                            input.form-control(type='text', name="word", placeholder='Add a new prosit here.', ng-model='newKeyword')
+                            span.input-group-btn
+                                //button.btn.btn-primary(type='submit') Add New
+                                button.btn.btn-primary(type='submit', ng-click='addKeyword()') Add New
     .row
         .col-lg-12
             h2 generalization

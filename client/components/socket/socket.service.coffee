@@ -31,19 +31,28 @@ angular.module 'appToolApp'
     Syncs item creation/updates on 'model:save'
     ###
     socket.on modelName + ':save', (item) ->
-      oldItem = _.find array,
-        _id: item._id
 
-      index = array.indexOf oldItem
-      event = 'created'
 
-      # replace oldItem if it exists
-      # otherwise just add item to the collection
-      if oldItem
-        array.splice index, 1, item
+      console.log oldItem
+      console.log array
+      console.log item
+
+      if typeof array.length is 'undefined'
+        array = item
         event = 'updated'
       else
-        array.push item
+        oldItem = _.find array,
+          _id: item._id
+        index = array.indexOf oldItem
+        event = 'created'
+
+        # replace oldItem if it exists
+        # otherwise just add item to the collection
+        if oldItem
+          array.splice index, 1, item
+          event = 'updated'
+        else
+          array.push item
 
       callback? event, item, array
 
@@ -65,6 +74,6 @@ angular.module 'appToolApp'
   @param modelName
   ###
   unsyncUpdates: (modelName) ->
-    socket.emit 'leave', modelName
     socket.removeAllListeners modelName + ':save'
     socket.removeAllListeners modelName + ':remove'
+    socket.emit 'leave', modelName

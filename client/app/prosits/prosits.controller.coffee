@@ -24,20 +24,30 @@ angular.module 'appToolApp'
 .controller 'PrositCtrl', ($scope, prosit, prosits, $stateParams, socket) ->
 
     $scope.prosit = prosit
-    socket.syncUpdates 'prosit', [$scope.prosit], (event, item, array)->
-      console.log event, item, array
-      console.log "coco"
-      $scope.prosit = item
+    socket.syncUpdates 'prosit', $scope.prosit, (event, oldItem, newItem)->
+      $scope.prosit = oldItem
 
     $scope.addKeyword = ->
       return if $scope.newKeyword is ''
-      $scope.prosit.keywords.push
+#      $scope.prosit.keywords.push
+#        word: $scope.newKeyword
+#        definition: "default"
+
+      prosits.updateKeyword($scope.prosit,
         word: $scope.newKeyword
-      prosits.updateKeyword($scope.prosit, $scope.prosit.keywords)
+        definition: "default"
+      )
       .success (data) ->
-          console.log (data)
-#          $scope.prosit.keywords.push data.keywords
-      $scope.newKeyword = ''
+#        $scope.prosit = data
+#        $scope.prosit.keywords.push data.keywords
+        $scope.newKeyword = ''
+
+
+    $scope.deleteKeyword = (keyword) ->
+      #TODO : delete
+#      prosits.updateKeyword($scope.prosit,
+#        keywords: $scope.prosit.keywords
+#      )
 
     $scope.addGeneralization = ->
       return if $scope.newGeneralization is ''
@@ -46,8 +56,6 @@ angular.module 'appToolApp'
       .success (data) ->
         $scope.prosit.generalization = data.generalization
       $scope.newGeneralization = ''
-
-#    socket.syncUpdates 'prosit', [$scope.prosit]
 
 
 

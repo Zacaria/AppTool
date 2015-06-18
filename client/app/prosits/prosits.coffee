@@ -12,8 +12,6 @@ angular.module 'appToolApp'
         templateUrl: 'app/prosits/prosit.html'
         controller: 'PrositCtrl'
         resolve:
-          prosit: ['$stateParams', 'prosits', 'socket', ($stateParams, prosits, socket) ->
-            prosit = prosits.get($stateParams.id)
-            socket.syncUpdates 'prosit', [prosit]
-            return  prosit
+          prosit: ['$stateParams', 'prosits', ($stateParams, prosits) ->
+            return  prosits.get($stateParams.id)
           ]

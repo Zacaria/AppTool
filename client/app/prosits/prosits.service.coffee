@@ -14,18 +14,25 @@ angular.module 'appToolApp'
         return prosit.data
 
     updateKeyword: (prosit, keyword) ->
+      prosit.keywords.push keyword
+      console.log prosit.keywords
       return $http.put('/api/prosits/' + prosit._id,
-        keywords : keywords.push keyword
+        keywords: prosit.keywords
       )
       .success (data) ->
-          prosit.keywords.push(keyword)
+        console.log data
+#          prosit.keywords.push(keyword)
+        prosit = data
+      .error((data, status)->
+        console.log data
+        console.log status
+      )
 
     updateGeneralization: (prosit, gen) ->
       return $http.put('/api/prosits/' + prosit._id,
         generalization: gen
       )
       .success (data) ->
-#          console.log(data)
           prosit.generalization = gen
 
   ]

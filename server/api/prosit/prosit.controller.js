@@ -31,10 +31,16 @@ exports.create = function(req, res) {
 // Updates an existing prosit in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
+  console.log(req.body);
   Prosit.findById(req.params.id, function (err, prosit) {
     if (err) { return handleError(res, err); }
     if(!prosit) { return res.send(404); }
-    var updated = _.merge(prosit, req.body);
+    console.log(prosit);
+//    prosit.keywords = req.body;
+//    var updated = prosit;
+    var updated = _.extend(prosit, req.body);
+//    _.extend(prosit, updated);
+    console.log(updated);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, prosit);

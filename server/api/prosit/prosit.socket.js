@@ -16,14 +16,9 @@ exports.register = function (socket) {
 };
 
 function onSave(socket, doc, cb) {
-    console.log(doc);
     socket.emit('prosit:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
     socket.emit('prosit:remove', doc);
 }
-
-//function onUpdate(socket, doc, cb) {
-//    socket.emit('prosit:update', doc);
-//}
