@@ -28,7 +28,8 @@ div(ng-include='"components/navbar/navbar.html"')
                 .col-lg-6
                     form.thing-form
                         p.input-group
-                            input.form-control(type='text', name="word", placeholder='Add a new prosit here.', ng-model='newKeyword')
+                            input.form-control(type='text', name="word", placeholder='Add a new word here.', ng-model='newKeyword')
+                            input.form-control(type='text', name="definition", placeholder='Define it here.', ng-model='newDefinition')
                             span.input-group-btn
                                 //button.btn.btn-primary(type='submit') Add New
                                 button.btn.btn-primary(type='submit', ng-click='addKeyword()') Add New

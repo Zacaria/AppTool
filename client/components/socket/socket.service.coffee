@@ -32,11 +32,6 @@ angular.module 'appToolApp'
     ###
     socket.on modelName + ':save', (item) ->
 
-
-      console.log oldItem
-      console.log array
-      console.log item
-
       if typeof array.length is 'undefined'
         array = item
         event = 'updated'

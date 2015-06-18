@@ -7,12 +7,6 @@ var PrositSchema = new Schema({
     name : String,
     info : String,
     title: String,
-//    content:[{
-//        sectionName: String,
-//        sectionContent:[{
-//
-//        }]
-//    }],
     roles:{
         animator: {
             type: Schema.Types.ObjectId,
@@ -25,7 +19,11 @@ var PrositSchema = new Schema({
     },
     keywords:[{
         word:String,
-        defintion: String
+        definition: {
+            type:String,
+            default: 'default',
+            required: true
+        }
     }],
     problematic:[{
         title:String

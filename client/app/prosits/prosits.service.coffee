@@ -3,36 +3,35 @@
 angular.module 'appToolApp'
 .factory 'prosits', ['$http', ($http)->
 
+    o =
+      prosits: []
+
     # Service logic
     # ...
-    prosits: []
+
 
     # Public API here
 
-    get: (id) ->
+    o.getAll = ->
+      return $http.get('/api/prosits')
+      .success (Prosits) ->
+        angular.copy(Prosits, o.prosits)
+      .error (data) ->
+        console.log 'failed getting all prosits'
+        console.log data
+
+
+    o.get = (id) ->
       return $http.get('/api/prosits/' + id).then (prosit) ->
         return prosit.data
 
-    updateKeyword: (prosit, keyword) ->
-      prosit.keywords.push keyword
-      console.log prosit.keywords
-      return $http.put('/api/prosits/' + prosit._id,
-        keywords: prosit.keywords
-      )
+    o.update = (prosit) ->
+      return $http.put('/api/prosits/' + prosit._id, prosit)
       .success (data) ->
-        console.log data
-#          prosit.keywords.push(keyword)
-        prosit = data
+          prosit = data
       .error((data, status)->
-        console.log data
-        console.log status
-      )
-
-    updateGeneralization: (prosit, gen) ->
-      return $http.put('/api/prosits/' + prosit._id,
-        generalization: gen
-      )
-      .success (data) ->
-          prosit.generalization = gen
-
+          console.log data
+          console.log status
+        )
+    o
   ]

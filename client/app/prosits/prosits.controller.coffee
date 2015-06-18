@@ -1,12 +1,14 @@
 'use strict'
 
 angular.module 'appToolApp'
-.controller 'PrositsCtrl', ($scope, $http, socket) ->
+.controller 'PrositsCtrl', ($scope, $http, prosits, socket) ->
     $scope.Prosits = []
 
-    $http.get('/api/prosits').success (Prosits) ->
-      $scope.Prosits = Prosits
-      socket.syncUpdates 'prosit', $scope.Prosits
+#    $http.get('/api/prosits').success (Prosits) ->
+#      $scope.Prosits = Prosits
+#      socket.syncUpdates 'prosit', $scope.Prosits
+    $scope.Prosits = prosits.prosits
+    socket.syncUpdates 'prosit', $scope.Prosits
 
     $scope.addProsit = ->
       return if $scope.newProsit is ''
@@ -25,37 +27,32 @@ angular.module 'appToolApp'
 
     $scope.prosit = prosit
     socket.syncUpdates 'prosit', $scope.prosit, (event, oldItem, newItem)->
-      $scope.prosit = oldItem
+      $scope.prosit = newItem
 
     $scope.addKeyword = ->
       return if $scope.newKeyword is ''
-#      $scope.prosit.keywords.push
-#        word: $scope.newKeyword
-#        definition: "default"
-
-      prosits.updateKeyword($scope.prosit,
+      $scope.prosit.keywords.push (
         word: $scope.newKeyword
-        definition: "default"
+        definition: $scope.newDefinition
       )
+      prosits.update($scope.prosit)
       .success (data) ->
-#        $scope.prosit = data
-#        $scope.prosit.keywords.push data.keywords
         $scope.newKeyword = ''
+        $scope.newDefinition = ''
 
 
     $scope.deleteKeyword = (keyword) ->
-      #TODO : delete
-#      prosits.updateKeyword($scope.prosit,
-#        keywords: $scope.prosit.keywords
-#      )
+      index = $scope.prosit.keywords.indexOf(keyword)
+      $scope.prosit.keywords.splice index, 1
+      prosits.update($scope.prosit)
 
     $scope.addGeneralization = ->
       return if $scope.newGeneralization is ''
-#      $scope.prosit.generalization = $scope.newGeneralization
-      prosits.updateGeneralization($scope.prosit, $scope.newGeneralization)
+      $scope.prosit.generalization = $scope.newGeneralization
+
+      prosits.update($scope.prosit)
       .success (data) ->
-        $scope.prosit.generalization = data.generalization
-      $scope.newGeneralization = ''
+        $scope.newGeneralization = ''
 
 
 
