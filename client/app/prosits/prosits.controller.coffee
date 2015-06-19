@@ -1,33 +1,35 @@
 'use strict'
 
 angular.module 'appToolApp'
-.controller 'PrositsCtrl', ($scope, $http, prosits, socket) ->
+.controller 'PrositsCtrl', ($scope, $http, Auth, prosits, socket) ->
     $scope.Prosits = []
 
-#    $http.get('/api/prosits').success (Prosits) ->
-#      $scope.Prosits = Prosits
-#      socket.syncUpdates 'prosit', $scope.Prosits
+    $scope.isLoggedIn = Auth.isLoggedIn
+
+    $scope.getCurrentUser = Auth.getCurrentUser
+#    $scope.userPromotion = Auth.getCurrentUser().promotion
+
     $scope.Prosits = prosits.prosits
     socket.syncUpdates 'prosit', $scope.Prosits
 
     $scope.addProsit = ->
       return if $scope.newProsit is ''
-      $http.post '/api/prosits',
-        name: $scope.newProsit
-
+      prosits.create $scope.newProsit
       $scope.newProsit = ''
 
     $scope.deleteProsit = (prosit) ->
-      $http.delete '/api/prosits/' + prosit._id
+      prosits.delete(prosit)
 
     $scope.$on '$destroy', ->
       socket.unsyncUpdates 'prosit'
+
+
 
 .controller 'PrositCtrl', ($scope, prosit, prosits, $stateParams, socket) ->
 
     $scope.prosit = prosit
     socket.syncUpdates 'prosit', $scope.prosit, (event, oldItem, newItem)->
-      $scope.prosit = newItem
+      $scope.prosit = newItem if newItem._id is $stateParams.id
 
     $scope.addKeyword = ->
       return if $scope.newKeyword is ''

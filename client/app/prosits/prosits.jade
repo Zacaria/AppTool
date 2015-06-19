@@ -1,16 +1,16 @@
-div(ng-include='"components/navbar/navbar.html"')
+//div(ng-include='"components/navbar/navbar.html"')
 
 .container
     .row
         .col-lg-12
             h1.page-header Features:
-            ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='prosit in Prosits')
+            ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='prosit in Prosits | filter:getCurrentUser().promotion')
                 li
                     a(ui-sref='prosit({id: prosit._id})', tooltip='{{prosit.info}}')
                         | {{prosit.name}}, {{prosit._id}}
                         button.close(type='button', ng-click='deleteProsit(prosit)') ×
 
-    form.thing-form
+    form.thing-form(ng-show='isLoggedIn()')
         label Syncs in realtime across clients
         p.input-group
             input.form-control(type='text', placeholder='Add a new prosit here.', ng-model='newProsit')

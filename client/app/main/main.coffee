@@ -2,8 +2,9 @@
 
 angular.module 'appToolApp'
 .config ($stateProvider) ->
-  $stateProvider
-  .state 'main',
-    url: '/'
-    templateUrl: 'app/main/main.html'
-    controller: 'MainCtrl'
+    $stateProvider
+    .state 'main',
+        parent: 'root'
+        url: '/'
+        templateUrl: 'app/main/main.html'
+        controller: 'MainCtrl'

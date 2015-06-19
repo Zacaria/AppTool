@@ -8,11 +8,17 @@ var PrositSchema = new Schema({
     info : String,
     title: String,
     roles:{
+        //affect roles
         animator: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
         secetary: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        //updates prosit
+        scribe: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         }
@@ -36,6 +42,15 @@ var PrositSchema = new Schema({
     actions:[{
         title: String
     }],
+    dates:{
+        created:{
+            type: Date,
+            default: Date.now()
+        },
+        updated: Date,
+        deleted: Date
+    },
+    promotion: String,
     active: Boolean
 });
 

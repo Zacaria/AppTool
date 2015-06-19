@@ -4,21 +4,21 @@ angular.module 'appToolApp'
 .config ($stateProvider) ->
     $stateProvider
     .state 'prosits',
+        parent: 'root'
         url: '/prosits'
         templateUrl: 'app/prosits/prosits.html'
         controller: 'PrositsCtrl'
         resolve:
           prositsPromise: ['prosits', (prosits) ->
-            data = prosits.getAll()
-#            console.log data.$$state.value
-            return  data
+            prosits.getAll()
           ]
 
     .state 'prosit',
+        parent: 'root'
         url: '/prosits/{id}'
         templateUrl: 'app/prosits/prosit.html'
         controller: 'PrositCtrl'
         resolve:
           prosit: ['$stateParams', 'prosits', ($stateParams, prosits) ->
-            return  prosits.get($stateParams.id)
+            prosits.get($stateParams.id)
           ]

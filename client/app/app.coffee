@@ -10,18 +10,26 @@ angular.module 'appToolApp', [
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider
-    .otherwise ->
-        url: '/404'
-        templateUrl: '404.html'
-#    .otherwise ($injector, $location) ->
-#        $injector.invoke(['$state', ($state) ->
-#          $state.go('404')
-#        ])
+#    .otherwise ->
+#        url: '/404'
+#        templateUrl: '404.html'
+    .otherwise ($injector, $location) ->
+        state = $injector.get('$state')
+        state.go('404')
+        $location.path()
 
     $stateProvider
+    .state('root',
+        abstract:true
+        views:
+          'nav':
+            templateUrl:'/components/navbar/navbar.html'
+          'main':
+            template:'<div ui-view=""></div>'
+      )
     .state('404',
-        url:'404'
-        templateUrl: '404.html'
+        parent: 'root'
+        template: '<div class="jumbotron">404</div>'
       )
 
     $locationProvider.html5Mode true
